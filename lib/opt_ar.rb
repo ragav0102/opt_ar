@@ -1,5 +1,5 @@
 require "opt_ar/version"
 
-module OptAr
+module OptAR
   # Your code goes here...
 end

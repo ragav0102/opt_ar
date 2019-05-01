@@ -1,8 +1,8 @@
 # OptAR
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/opt_ar`. To experiment with that code, run `bin/console` for an interactive prompt.
+Generates memory-optimal immutable ActiveRecord dupes that are easily serializable and behaves much like them. Define required attributes before-hand and use them just as you would on an AR, for better memory optimization.
 
-TODO: Delete this and the text above, and describe your gem
+Ideally, suitable in place of caching AR objects with cache stores like Memcached, where serialization and de-serialization are memory-hungry
 
 ## Installation
 

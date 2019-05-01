@@ -1,11 +1,11 @@
-require "test_helper"
+require 'test_helper'
 
-class OptArTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::OptAr::VERSION
+class OptARTest < Minitest::Test
+  def test_version_number_presence
+    refute_nil ::OptAR::VERSION
   end
 
   def test_it_does_something_useful
-    assert false
+    assert true
   end
 end

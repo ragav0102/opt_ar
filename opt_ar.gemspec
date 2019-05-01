@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
                        'optimization.\n Ideally, suitable in place of caching '\
                        'AR objects with cache stores like Memcached, where '\
                        'serialization and de-serialization are memory-hungry'
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/ragav0102/opt_ar"
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

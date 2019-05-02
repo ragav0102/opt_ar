@@ -28,7 +28,8 @@ module OptAR
 
       raise OptAR::Errors::MutationNotAllowedError if assign?(method_name)
 
-      Rails.logger.warn "#{WARN_MSG} :: #{method_name}"
+      OptAR::Logger.log("#{WARN_MSG} :: #{method_name}", :warn)
+
       load_ar_object
       @klass_object ? @klass_object.send(method_name, *args) : super
     end
@@ -44,9 +45,12 @@ module OptAR
 
     # Default scope for the class defined by klass_name will be applied here
     def load_ar_object
-      @klass_object ||= klass_name.constantize
-                                  .where(id: id)
-                                  .first(readonly: true)
+      @klass_object ||= begin
+        klass_name.constantize
+                  .readonly(true)
+                  .where("#{klass_primary_key}=#{klass_primary_key_value}")
+                  .first
+      end
       raise OptAR::Errors::ARObjectNotFoundError unless @klass_object
     end
 
@@ -54,12 +58,19 @@ module OptAR
       klass_name.gsub('::', '_').underscore
     end
 
-    def klass_primary_key(klass)
-      klass.primary_key.to_sym
+    def klass_primary_key(klass = nil)
+      @primary_key ||= begin
+        klass ||= klass_name.constantize
+        klass.primary_key.to_sym
+      end
+    end
+
+    def klass_primary_key_value
+      attributes[klass_primary_key]
     end
 
     def primary_key?(method_name)
-      method_name == klass_primary_key(klass_name.constantize)
+      method_name == klass_primary_key
     end
 
     def assign?(method_name)

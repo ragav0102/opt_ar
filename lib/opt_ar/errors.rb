@@ -14,5 +14,8 @@ module OptAR
 
     class MissingPrimaryKeyError < StandardError
     end
+
+    class NonActiveRecordError < StandardError
+    end
   end
 end

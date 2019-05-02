@@ -8,3 +8,6 @@ gemspec
 gem 'activerecord', '>= 3.2'
 gem 'mysql2', '>= 0.3 '
 gem 'minitest-reporters'
+# gem 'minitest-logger'
+
+# gem 'byebug', '10.0.2'

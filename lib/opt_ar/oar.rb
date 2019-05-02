@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/helpers/method_finder_helper'
 
 module OptAR
-  class OptimalActiveRecord
+  class OAR
     include OptAR::MethodFinderHelper
 
     attr_reader :attributes, :klass_name, :klass_object

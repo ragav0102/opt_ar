@@ -14,10 +14,10 @@ Gem::Specification.new do |spec|
                        'that are easily serializable and behaves much like '\
                        'them. Define required attributes before-hand and use'\
                        ' them just as you would on an AR, for better memory '\
-                       'optimization.\n Ideally, suitable in place of caching '\
+                       'optimization. Ideally, suitable in place of caching '\
                        'AR objects with cache stores like Memcached, where '\
                        'serialization and de-serialization are memory-hungry'
-  spec.homepage      = "https://github.com/ragav0102/opt_ar"
+  spec.homepage      = 'https://github.com/ragav0102/opt_ar'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

@@ -21,7 +21,7 @@ class OARTest < OptARTest::Base
     err = assert_raises RuntimeError do
       @oar.attributes[:last_name] = 'Green'
     end
-    assert_match /can't modify frozen Hash/, err.message
+    assert_match(/can't modify frozen Hash/, err.message)
   end
 
   def test_oar_klass_name_immutability
@@ -48,11 +48,23 @@ class OARTest < OptARTest::Base
     assert_raises OptAR::Errors::ARObjectNotFoundError do
       emp = Employee.new(first_name: 'Chandler', last_name: 'M. Bing',
                          birth_date: '1960-03-21', hire_date: '1994-04-12',
-                         gender: 1, emp_id: Employee.maximum(:emp_id) + 100)
+                         gender: 1, emp_id: Employee.maximum(:emp_id) + 100,
+                         password: 'oprjeiw')
       emp.save!
       oar1 = emp.opt_ar_object
       emp.destroy
       oar1.last_name
+    end
+  end
+
+  def test_blacklisted_attrs_removal
+    oar1 = Employee.first.opt_ar_object(req_attributes: [:password])
+    refute oar1.attributes.key?(:password)
+  end
+
+  def test_exception_for_blacklisting_primary_key
+    assert_raises OptAR::Errors::PrimaryKeyBlacklistedError do
+      OptAR::OAR.new(SampleAR.new(sample_id: 21))
     end
   end
 end

@@ -17,5 +17,8 @@ module OptAR
 
     class NonActiveRecordError < StandardError
     end
+
+    class PrimaryKeyBlacklistedError < StandardError
+    end
   end
 end

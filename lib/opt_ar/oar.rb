@@ -59,7 +59,11 @@ module OptAR
     #   security related information to the outside world
     def skipped_attributes(klass)
       if klass.const_defined?(BLACKLISTED_ATTRIBUTES)
-        klass.const_get(BLACKLISTED_ATTRIBUTES)
+        attrs = klass.const_get(BLACKLISTED_ATTRIBUTES)
+        if attrs.include? klass_primary_key(klass)
+          raise OptAR::Errors::PrimaryKeyBlacklistedError
+        end
+        attrs
       else
         []
       end

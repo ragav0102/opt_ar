@@ -8,13 +8,9 @@ module OptAR
         def build_opt_ar(name, options = {})
           validate_name(name)
           faker_proc = lambda do |*args|
-            options = options.respond_to?(:call) ? unscoped { options.call(*args) } : options
+            options = fetch_options(options, *args)
             scope = options[:scope]
-            if scope
-              valid_scope?(scope) ? send(scope).opt_ar_objects(options) : throw_error(:undefined_scope, scope: scope)
-            else
-              send(:build_default_scope).opt_ar_objects(options)
-            end
+            fetch_optar_objects(scope, options)
           end
           singleton_class.send(:redefine_method, name, &faker_proc)
         end
@@ -29,7 +25,8 @@ module OptAR
 
         def validate_name(name)
           valid = valid_name?(name)
-          throw_error(:invalid_name, name: name, type: valid) unless valid == true
+          return true if valid == true
+          throw_error(:invalid_name, name: name, type: valid)
         end
 
         def valid_name?(name)
@@ -40,6 +37,34 @@ module OptAR
           else
             true
           end
+        end
+
+        def fetch_options(options, *args)
+          if options.respond_to?(:call)
+            unscoped { options.call(*args) }
+          else
+            options
+          end
+        end
+
+        def fetch_optar_objects(scope, options)
+          if scope
+            fetch_scoped_optar(scope, options)
+          else
+            fetch_default_scoped_optars(options)
+          end
+        end
+
+        def fetch_scoped_optar(scope, options)
+          if valid_scope?(scope)
+            send(scope).opt_ar_objects(options)
+          else
+            throw_error(:undefined_scope, scope: scope)
+          end
+        end
+
+        def fetch_default_scoped_optars(options)
+          send(:build_default_scope).opt_ar_objects(options)
         end
 
         def throw_error(error_type, error_options)

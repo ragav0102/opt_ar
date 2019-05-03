@@ -1,54 +1,8 @@
-require_relative 'test_helper'
-require_relative './setup/mysql'
-
-class OptARTest < Minitest::Test
-  EMPLOYEE = 'Employee'.freeze
-
+# Test cases covering OARs generated through show_as defs
+class ShowAsTest < OptarTest::Base
   def setup
     log_path = "#{File.expand_path(Dir.pwd)}/logs/test.log"
-    FileUtils.touch(log_path)
     ActiveRecord::Base.logger = Logger.new(log_path)
-  end
-
-  def test_version_number_presence
-    refute_nil ::OptAR::VERSION
-  end
-
-  def test_it_does_something_useful
-    assert true
-  end
-
-  def test_db_table_exists_with_data
-    assert !Employee.count.zero?
-  end
-
-  def test_optar_response_to_primary_key
-    optar = Employee.first.opt_ar_objects
-    refute_nil(optar.emp_id)
-  end
-
-  def test_optar_response_to_unrequested_attr
-    optar = Employee.first.opt_ar_objects
-    refute_nil(optar.last_name)
-  end
-
-  def test_warning_for_unrequested_attr
-    optar = Employee.first.opt_ar_objects
-    mock = MiniTest::Mock.new
-    msg = 'WARNING :: Trying to access attr that was not requested :: gender'
-    mock.expect(:call, nil, [msg, :warn])
-
-    OptAR::Logger.stub(:log, mock) do
-      optar.gender
-    end
-
-    mock.verify
-  end
-
-  def test_optar_employee_first
-    ar = Employee.first
-    optar = Employee.first.opt_ar_objects
-    assert_equal ar.emp_id, optar.emp_id
   end
 
   def test_show_as_with_scope
@@ -135,7 +89,7 @@ class OptARTest < Minitest::Test
 
   def test_klass_object_nil_on_requested_attribute
     optar = Employee.date_infos.first
-    optar_first_name = optar.birth_date
+    optar.birth_date
     assert_nil optar.klass_object
   end
 end

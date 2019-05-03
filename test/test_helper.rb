@@ -5,8 +5,6 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'models/test_models'
 require_relative './setup/mysql'
-require_relative 'base'
-
 
 WARN_MSG = 'WARNING :: Trying to access attr that was not requested'.freeze
 EMPLOYEE = 'Employee'.freeze

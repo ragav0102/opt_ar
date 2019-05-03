@@ -46,7 +46,7 @@ module OptAR
       attribute_keys = req_attributes +
                        mandatory_attributes(klass) -
                        skipped_attributes(klass)
-      @attributes = obj_attributes.slice(*attribute_keys)
+      @attributes = obj_attributes.slice(*attribute_keys).freeze
     end
 
     def mandatory_attributes(klass)

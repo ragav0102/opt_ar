@@ -1,6 +1,6 @@
 # Test cases covering OARs generated through invocations on
 #   ActiveRecord::Relation's
-class ARRelationTest < OptarTest::Base
+class ARRelationTest < OptARTest::Base
   def setup
     super
     @relation = Employee.where('1=1')

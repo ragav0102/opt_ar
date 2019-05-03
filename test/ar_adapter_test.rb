@@ -1,12 +1,7 @@
-require_relative 'test_helper'
+require_relative 'base'
 
 # Tests all invocations from an ActiveRecord object
-class ARAdapterTest < Minitest::Test
-  def setup
-    log_path = "#{File.expand_path(Dir.pwd)}/logs/test.log"
-    ActiveRecord::Base.logger = Logger.new(log_path)
-  end
-
+class ARAdapterTest < OptARTest::Base
   def test_optar_response_to_primary_key
     optar = Employee.first.opt_ar_objects
     refute_nil(optar.emp_id)

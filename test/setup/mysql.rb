@@ -3,7 +3,7 @@ require 'active_record'
 
 require 'active_record/connection_adapters/mysql2_adapter'
 
-module OptarTestDB
+module OptARTestDB
   TEST_TABLE = 'employee'.freeze
 
   class << self
@@ -53,4 +53,4 @@ module OptarTestDB
   end
 end
 
-OptarTestDB.init
+OptARTestDB.init

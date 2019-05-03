@@ -1,10 +1,5 @@
 # Test cases covering OARs generated through show_as defs
-class ShowAsTest < OptarTest::Base
-  def setup
-    log_path = "#{File.expand_path(Dir.pwd)}/logs/test.log"
-    ActiveRecord::Base.logger = Logger.new(log_path)
-  end
-
+class ShowAsTest < OptARTest::Base
   def test_show_as_with_scope
     ar_count = Employee.male_employees.count
     optar_count = Employee.male_name.length

@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-module OptarTest
+module OptARTest
   # Base class where all generic test logics go
   class Base < Minitest::Test
     def setup

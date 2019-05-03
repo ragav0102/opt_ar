@@ -1,6 +1,5 @@
 require_relative 'test_helper'
 require_relative './setup/mysql'
-require 'byebug'
 
 class OptARTest < Minitest::Test
   EMPLOYEE = 'Employee'.freeze

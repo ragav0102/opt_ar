@@ -67,4 +67,25 @@ class OARTest < OptARTest::Base
       OptAR::OAR.new(SampleAR.new(sample_id: 21))
     end
   end
+
+  def test_valid_datetime_ar_field_transform
+    emp = Employee.last
+    oar1 = emp.opt_ar_object(req_attributes: [:created_at])
+    assert emp.created_at == oar1.created_at
+  end
+
+  def test_valid_datetime_ar_field_transform
+    emp = Employee.last
+    oar1 = emp.opt_ar_object(req_attributes: [:created_at])
+    assert emp.created_at == oar1.created_at
+  end
+
+  def test_exception_for_invalid_datetime_attribute
+    assert_raises OptAR::Errors::TimeTypeExpectedError do
+      Employee.stub_const(:DATE_TIME_ATTRIBUTES, %i[first_name]) do
+        emp = Employee.last
+        emp.opt_ar_object(req_attributes: [:first_name])
+      end
+    end
+  end
 end

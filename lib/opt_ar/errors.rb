@@ -20,5 +20,8 @@ module OptAR
 
     class PrimaryKeyBlacklistedError < StandardError
     end
+
+    class TimeTypeExpectedError < StandardError
+    end
   end
 end

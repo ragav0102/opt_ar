@@ -1,4 +1,5 @@
 # Test cases covering OARs generated through show_as defs
+require 'byebug'
 class ShowAsTest < OptARTest::Base
   def test_show_as_with_scope
     ar_count = Employee.male_employees.count
@@ -86,5 +87,17 @@ class ShowAsTest < OptARTest::Base
     optar = Employee.date_infos.first
     optar.birth_date
     assert_nil optar.klass_object
+  end
+
+  def test_show_as_error_on_duplicate_method_name
+    assert_raises OptAR::Errors::DuplicateNameError do
+      Employee.send(:show_as, :all_emp)
+    end
+  end
+
+  def test_show_as_error_on_invalid_scope
+    assert_raises OptAR::Errors::UndefinedScopeError do
+      Employee.send(:show_as, :sample, scope: :some_invalid)
+    end
   end
 end

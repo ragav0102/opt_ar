@@ -1,6 +1,13 @@
 require File.dirname(__FILE__) + '/helpers/method_finder_helper'
 
 module OptAR
+  # Dupe of ActiveRecord::Base providing necessary read functionalities
+  #   of it, while removing a lot of abstactions that it provides
+  #   to reduce memory and processing time utilisation
+  #
+  # attributes   : contains the requested attributes from AR
+  # klass_name   : class name of original AR model
+  # klass_object : original AR object loaded
   class OAR
     include OptAR::MethodFinderHelper
 
@@ -46,7 +53,8 @@ module OptAR
       attribute_keys = req_attributes +
                        mandatory_attributes(klass) -
                        skipped_attributes(klass)
-      @attributes = obj_attributes.slice(*attribute_keys).freeze
+      @attributes = obj_attributes.slice(*attribute_keys)
+      transform_datetime_attributes(object.class)
     end
 
     def mandatory_attributes(klass)
@@ -67,6 +75,18 @@ module OptAR
       else
         []
       end
+    end
+
+    def transform_datetime_attributes(klass)
+      fields = transformable_fields(klass)
+      return unless fields.present?
+      fields.each do |field|
+        val = attributes[field]
+        raise OptAR::Errors::TimeTypeExpectedError unless val.is_a?(Time)
+        attributes[field] = val.to_i
+      end
+    ensure
+      attributes.freeze
     end
 
     def marshal_dump

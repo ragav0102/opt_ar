@@ -46,14 +46,11 @@ module OptARTestDB
 
     def create_employee_table(db)
       db.execute(%{ CREATE TABLE `#{EMPLOYEE_TABLE}` (
-          emp_id      INT             NOT NULL,
-          birth_date  DATE            NOT NULL,
-          first_name  VARCHAR(16)     NOT NULL,
-          last_name   VARCHAR(16)     NOT NULL,
-          gender      TINYINT         NOT NULL,
-          hire_date   DATE            NOT NULL,
-          password    VARCHAR(16)     NOT NULL,
-          PRIMARY KEY (emp_id)
+          emp_id INT NOT NULL, birth_date DATE NOT NULL,
+          first_name VARCHAR(16) NOT NULL, last_name VARCHAR(16) NOT NULL,
+          gender TINYINT NOT NULL, hire_date DATE NOT NULL,
+          password VARCHAR(16) NOT NULL, created_at DATETIME NOT NULL,
+          updated_at DATETIME NOT NULL, PRIMARY KEY (emp_id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8; })
     end
 

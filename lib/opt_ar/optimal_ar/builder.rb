@@ -7,6 +7,7 @@ module OptAR
       module ClassMethods
         def build_opt_ar(name, options = {})
           validate_name(name)
+          validate_scope(options[:scope]) if options[:scope]
           faker_proc = lambda do |*args|
             options = fetch_options(options, *args)
             scope = options[:scope]
@@ -18,6 +19,12 @@ module OptAR
         alias show_as build_opt_ar
 
         private
+
+        def validate_scope(scope_name)
+          valid = valid_scope?(scope_name)
+          return if valid == true
+          throw_error(:undefined_scope, scope: scope_name)
+        end
 
         def valid_scope?(scope_name)
           respond_to? scope_name
@@ -56,11 +63,7 @@ module OptAR
         end
 
         def fetch_scoped_optar(scope, options)
-          if valid_scope?(scope)
-            send(scope).opt_ar_objects(options)
-          else
-            throw_error(:undefined_scope, scope: scope)
-          end
+          send(scope).opt_ar_objects(options)
         end
 
         def fetch_default_scoped_optars(options)
@@ -74,14 +77,14 @@ module OptAR
         def undefined_scope(options)
           msg = " :: show_as defined with Undefined Scope :: #{options[:scope]}"
           OptAR::Logger.log(msg, :error)
-          OptAR::Error::UndefinedScopeError.new(options)
+          OptAR::Errors::UndefinedScopeError.new(options)
         end
 
         def invalid_name(options)
           error_options = "#{options[:name]} :: #{options[:type]}"
           msg = " :: show_as defined with invalid name :: #{error_options}"
           OptAR::Logger.log(msg, :error)
-          OptAR::Error::DuplicateNameError.new(options)
+          OptAR::Errors::DuplicateNameError.new(options)
         end
       end
 

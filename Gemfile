@@ -6,8 +6,11 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 gemspec
 
 gem 'activerecord', '>= 3.2'
-gem 'mysql2', '>= 0.3 '
-gem 'minitest-reporters'
-# gem 'minitest-logger'
 
 # gem 'byebug', '10.0.2'
+
+# gem 'minitest-reporters'
+# gem 'minitest-stub-const'
+# gem 'minitest-logger'
+
+gem 'mysql2', '>= 0.3'

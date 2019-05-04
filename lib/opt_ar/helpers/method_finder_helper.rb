@@ -1,7 +1,10 @@
 module OptAR
+  # Methods for handling all attributes read
   module MethodFinderHelper
     ID_STRING = 'id'.freeze
     WARN_MSG = 'WARNING :: Trying to access attr that was not requested'.freeze
+    DEFAULT_DATE_TIME_ATTRIBUTES = %i[created_at updated_at].freeze
+    DATE_TIME_CONST_KEY = 'DATE_TIME_ATTRIBUTES'.freeze
 
     private
 
@@ -22,7 +25,7 @@ module OptAR
     #   methods on the instance, for attribute that was not requested initially
     def method_missing(method_name, *args)
       method_name = method_name.to_sym
-      return @attributes[method_name] if @attributes.key?(method_name)
+      return read_from_attributes(method_name) if @attributes.key?(method_name)
 
       raise OptAR::Errors::MissingPrimaryKeyError if primary_key?(method_name)
 
@@ -43,6 +46,15 @@ module OptAR
       @klass_object.respond_to?(*args)
     end
 
+    def read_from_attributes(key)
+      klass = klass_name.constantize
+      if transformable_fields(klass).include?(key)
+        Time.at(attributes[key]).utc
+      else
+        attributes[key]
+      end
+    end
+
     # Default scope for the class defined by klass_name will be applied here
     def load_ar_object
       @klass_object ||= begin
@@ -52,6 +64,18 @@ module OptAR
                   .first
       end
       raise OptAR::Errors::ARObjectNotFoundError unless @klass_object
+    end
+
+    def transformable_fields(klass)
+      @transformable_keys ||= begin
+        keys = attributes.keys
+        attrs = if klass.const_defined?(DATE_TIME_CONST_KEY)
+                  klass.const_get(DATE_TIME_CONST_KEY)
+                else
+                  DEFAULT_DATE_TIME_ATTRIBUTES
+                end
+        keys & attrs
+      end
     end
 
     def klass_key

@@ -9,11 +9,12 @@ Gem::Specification.new do |spec|
   spec.authors       = ['ragav0102']
   spec.email         = ['ragavh123@gmail.com']
 
-  spec.summary       = 'Generates memory-optimal immutable ActiveRecord dupes'
+  spec.summary       = 'Generates memory-friendly and immutable read-optimized'\
+                       ' ActiveRecord dupes for caching and other purposes'
   spec.description   = 'Generates memory-optimal immutable ActiveRecord dupes '\
                        'that are easily serializable and behaves much like '\
-                       'them. Define required attributes before-hand and use'\
-                       ' them just as you would on an AR, for better memory '\
+                       'ARs. Define required attributes before-hand and use '\
+                       'them just as you would on an AR, for better memory '\
                        'optimization. Ideally, suitable in place of caching '\
                        'AR objects with cache stores like Memcached, where '\
                        'serialization and de-serialization are memory-hungry'

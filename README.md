@@ -69,17 +69,10 @@ If not given, stores only the primary key
 
 ---
 
-
-#### All OAR objects are immutable. Trying to write or change it will raise exceptions
-
-
-
-Again,
-###  OARs are read-optimized AR dupes
-
-
-
-##### Utilize it better for querying/caching, by defining attributes, only that are required
+> Things to remember:
+> - All OAR objects are immutable. Trying to write or change it will raise exceptions.
+> - Again, OARs are __read-optimized__ AR dupes
+> - Utilize it better for querying/caching, by defining attributes, only that are required
 
 
 ---

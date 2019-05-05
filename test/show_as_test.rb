@@ -1,5 +1,4 @@
 # Test cases covering OARs generated through show_as defs
-require 'byebug'
 class ShowAsTest < OptARTest::Base
   def test_show_as_with_scope
     ar_count = Employee.male_employees.count

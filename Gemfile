@@ -9,8 +9,9 @@ gem 'activerecord', '>= 3.2'
 
 # gem 'byebug', '10.0.2'
 
-# gem 'minitest-reporters'
-# gem 'minitest-stub-const'
+gem 'minitest-reporters'
+gem 'minitest-stub-const'
+
 # gem 'minitest-logger'
 
 gem 'mysql2', '>= 0.3'

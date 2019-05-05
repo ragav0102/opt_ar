@@ -80,7 +80,10 @@ Again,
 
 
 ##### Utilize it better for querying/caching, by defining attributes, only that are required
+
+
 ---
+
 
 Use them on _AR relations/ Array of ARs_ as well
 
@@ -100,6 +103,7 @@ Use them on _AR relations/ Array of ARs_ as well
 
 ---
 
+
 On an ActiveRecord,
 
 ```ruby
@@ -111,6 +115,7 @@ On an ActiveRecord,
 
 ```
 ---
+
 
 _created_at_ and _updated_at_ fields are by default considered to be Time objects. Override them using the _const_,
 
@@ -126,6 +131,7 @@ in your model.
   
 ---
 
+
 Restrict storing sensitive/PII info outside, by blacklisting them. Simply add this _const_ to your model
 
 ```ruby
@@ -136,7 +142,8 @@ Restrict storing sensitive/PII info outside, by blacklisting them. Simply add th
 
 Will add benchmarking results soon.
 
----
+
+
 
 ## Development
 
@@ -153,3 +160,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the OptAR project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/ragav0102/opt_ar/blob/master/CODE_OF_CONDUCT.md).
+
+
+
+Available at https://rubygems.org/gems/opt_ar

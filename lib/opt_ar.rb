@@ -3,6 +3,8 @@ require 'active_record'
 require_relative './opt_ar/optimal_ar/builder'
 require_relative 'opt_ar/logger'
 require_relative 'opt_ar/errors'
+require_relative 'opt_ar/core_ext/active_record/relation'
+# Dir['/opt_ar/core_ext/*/*.rb'].each { |file| require file }
 # Dir["#{File.dirname(__FILE__)}/lib/opt_ar/**/*.rb"].each { |f| require f }
 
 # Base module
@@ -12,19 +14,9 @@ end
 ActiveRecord::Base.send :include, OptAR::OptimalAR::Builder
 
 module ActiveRecord
-  # Overwriting ActiveRecord::Relation to make opt_ar_objects
-  #   method available for all relations, returning array of
-  #   `OAR`s which we generate
+  # Extending ActiveRecord::Relation to respond to opt_ar_objects
   class Relation
-    # TODO: Introduce pluck usage for relations
-    # if ActiveRecord::VERSION::MAJOR < 4
-    #   to_a.opt_ar_objects(options)
-    # else
-    #   pluck(options[:req_attributes]).opt_ar_objects
-    # end
-    def opt_ar_objects(options = {})
-      to_a.opt_ar_objects(options)
-    end
+    include ActiveRecord::RelationExtender
   end
 end
 

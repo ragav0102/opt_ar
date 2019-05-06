@@ -23,5 +23,11 @@ module OptAR
 
     class TimeTypeExpectedError < StandardError
     end
+
+    class MandatoryPrimaryKeyMissingError < StandardError
+    end
+
+    class UnknownARColumnError < StandardError
+    end
   end
 end

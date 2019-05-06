@@ -11,5 +11,5 @@ require_relative './setup/mysql'
 WARN_MSG = 'WARNING :: Trying to access attr that was not requested'.freeze
 EMPLOYEE = 'Employee'.freeze
 
-Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
-                          Minitest::Reporters::ProgressReporter.new]
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
+# Minitest::Reporters::ProgressReporter.new]

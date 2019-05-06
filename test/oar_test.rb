@@ -74,10 +74,12 @@ class OARTest < OptARTest::Base
     assert emp.created_at == oar1.created_at
   end
 
-  def test_valid_datetime_ar_field_transform
-    emp = Employee.last
-    oar1 = emp.opt_ar_object(req_attributes: [:created_at])
-    assert emp.created_at == oar1.created_at
+  def test_valid_datetime_ar_field_transform_overriding
+    Employee.stub_const(:DATE_TIME_ATTRIBUTES, %i[created_at]) do
+      emp = Employee.last
+      oar1 = emp.opt_ar_object(req_attributes: [:created_at])
+      assert emp.created_at == oar1.created_at
+    end
   end
 
   def test_exception_for_invalid_datetime_attribute
@@ -86,6 +88,12 @@ class OARTest < OptARTest::Base
         emp = Employee.last
         emp.opt_ar_object(req_attributes: [:first_name])
       end
+    end
+  end
+
+  def test_exception_for_init_without_primary_key
+    assert_raises OptAR::Errors::MandatoryPrimaryKeyMissingError do
+      Employee.select([:first_name]).first.opt_ar_object
     end
   end
 end

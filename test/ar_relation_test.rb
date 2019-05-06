@@ -63,4 +63,16 @@ class ARRelationTest < OptARTest::Base
     optar.birth_date
     refute_nil optars.first.klass_object
   end
+
+  def test_relation_attr_read_with_select_not_including_primary_key
+    rel1 = @relation.select([:first_name])
+    optars = rel1.opt_ar_objects(req_attributes: %i[first_name created_at])
+    refute_nil optars.first.last_name
+  end
+
+  def test_relation_attr_read_with_select_not_including_req_attribute
+    rel1 = @relation.select([:first_name])
+    optars = rel1.opt_ar_objects(req_attributes: [:last_name])
+    refute_nil optars.first.last_name
+  end
 end

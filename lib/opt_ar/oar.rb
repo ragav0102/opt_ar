@@ -22,6 +22,16 @@ module OptAR
       # define_attr_readers
     end
 
+    def self.init_manual(attrs, klass, req_attributes)
+      oar = allocate
+      attr_keys = oar.send(:fetch_attribute_keys, req_attributes, klass)
+      attrs = attrs.slice(*attr_keys)
+      oar.instance_variable_set('@attributes', attrs)
+      oar.instance_variable_set('@klass_name', klass.name)
+      oar.send(:transform_datetime_attributes, klass)
+      oar
+    end
+
     def as_json
       {
         klass_key => attributes.as_json
@@ -50,11 +60,19 @@ module OptAR
     def assign_attributes(object, req_attributes)
       obj_attributes = object.attributes.symbolize_keys
       klass = object.class
-      attribute_keys = req_attributes +
-                       mandatory_attributes(klass) -
-                       skipped_attributes(klass)
+      p_key = klass_primary_key(klass)
+
+      unless obj_attributes[p_key]
+        raise OptAR::Errors::MandatoryPrimaryKeyMissingError
+      end
+
+      attribute_keys = fetch_attribute_keys(req_attributes, klass)
       @attributes = obj_attributes.slice(*attribute_keys)
       transform_datetime_attributes(object.class)
+    end
+
+    def fetch_attribute_keys(req_attributes, klass)
+      req_attributes + mandatory_attributes(klass) - skipped_attributes(klass)
     end
 
     def mandatory_attributes(klass)

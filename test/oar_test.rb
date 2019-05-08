@@ -1,5 +1,3 @@
-require_relative 'test_helper'
-
 # Tests versioning and DB bootstrap for tests
 class OARTest < OptARTest::Base
   def setup
@@ -95,5 +93,13 @@ class OARTest < OptARTest::Base
     assert_raises OptAR::Errors::MandatoryPrimaryKeyMissingError do
       Employee.select([:first_name]).first.opt_ar_object
     end
+  end
+
+  def test_respond_to_check_for_unrequested_attribute
+    assert @oar.respond_to?(:created_at)
+  end
+
+  def test_respond_to_check_for_invalid_attribute
+    refute @oar.respond_to?(:created_at_e98qwe)
   end
 end

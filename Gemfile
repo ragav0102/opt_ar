@@ -12,6 +12,9 @@ gem 'activerecord', '>= 3.2'
 gem 'minitest-reporters'
 gem 'minitest-stub-const'
 
-# gem 'minitest-logger'
-
 gem 'mysql2', '>= 0.3'
+
+gem 'benchmark-ips'
+gem 'benchmark-memory'
+
+gem 'simplecov'

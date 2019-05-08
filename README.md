@@ -1,4 +1,4 @@
-# OptAR [![CircleCI](https://circleci.com/gh/ragav0102/opt_ar/tree/master.svg?style=svg)](https://circleci.com/gh/ragav0102/opt_ar/tree/master)
+# OptAR [![CircleCI](https://circleci.com/gh/ragav0102/opt_ar/tree/master.svg?style=svg)](https://circleci.com/gh/ragav0102/opt_ar/tree/master) [![Gem Version](https://badge.fury.io/rb/opt_ar.svg)](https://badge.fury.io/rb/opt_ar) ![](https://ruby-gem-downloads-badge.herokuapp.com/opt_ar?type=total&style=plastic&color=brightgreen&total_label=)
 
 Generates memory-optimal immutable ActiveRecord dupes that are easily serializable and behaves much like ARs. Request attributes that will be read before-hand, and use them later just as you would on an AR, for better memory optimization.
 
@@ -133,7 +133,7 @@ Restrict storing sensitive/PII info outside, by blacklisting them. Simply add th
 
 ---
 
-Will add benchmarking results soon.
+Check for benchmarks inside _benchmarks/_ folder
 
 
 

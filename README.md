@@ -133,7 +133,7 @@ Restrict storing sensitive/PII info outside, by blacklisting them. Simply add th
 
 ---
 
-Check for benchmarks inside _benchmarks/_ folder
+Check for benchmarks inside [_benchmarks_ folder](./benchmarks) folder
 
 
 

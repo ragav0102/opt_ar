@@ -18,3 +18,7 @@ gem 'benchmark-ips'
 gem 'benchmark-memory'
 
 gem 'simplecov'
+
+# gem 'codeclimate-test-reporter'
+
+gem 'minitest-ci'

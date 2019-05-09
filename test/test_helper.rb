@@ -12,6 +12,9 @@ require 'opt_ar'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/stub_const'
+require 'minitest/ci'
+
+Minitest::Ci.report_dir = 'tmp/test-results'
 
 require_relative 'models/test_models'
 require_relative './setup/mysql'

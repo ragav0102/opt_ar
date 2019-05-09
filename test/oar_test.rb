@@ -66,6 +66,15 @@ class OARTest < OptARTest::Base
     end
   end
 
+  def test_with_no_blacklisted_attrs_defined
+    prev = Employee.const_get(:BLACKLISTED_ATTRIBUTES)
+    Employee.send(:remove_const, :BLACKLISTED_ATTRIBUTES)
+    oar1 = Employee.first.opt_ar_object(req_attributes: [:password])
+    assert oar1.attributes.key?(:password)
+  ensure
+    Employee.const_set(:BLACKLISTED_ATTRIBUTES, prev)
+  end
+
   def test_valid_datetime_ar_field_transform
     emp = Employee.last
     oar1 = emp.opt_ar_object(req_attributes: [:created_at])
@@ -101,5 +110,47 @@ class OARTest < OptARTest::Base
 
   def test_respond_to_check_for_invalid_attribute
     refute @oar.respond_to?(:created_at_e98qwe)
+  end
+
+  def test_respond_to_check_for_req_attribute
+    assert @oar.respond_to?(:emp_id)
+  end
+
+  def test_marshal_dump_attributes_retaining
+    m = Marshal.dump(@oar)
+    um = Marshal.load(m)
+    assert_equal um.attributes, @oar.attributes
+  end
+
+  def test_marshal_dump_klass_name_retaining
+    m = Marshal.dump(@oar)
+    um = Marshal.load(m)
+    assert_equal um.klass_name, @oar.klass_name
+  end
+
+  def test_marshal_dump_klass_object_removal
+    @oar.first_name
+    assert !@oar.instance_variable_get('@klass_object').nil?
+    m = Marshal.dump(@oar)
+    um = Marshal.load(m)
+    assert um.instance_variable_get('@klass_object').nil?
+  end
+
+  def test_marshal_dump_primary_key_removal
+    @oar.first_name
+    assert !@oar.instance_variable_get('@primary_key').nil?
+    m = Marshal.dump(@oar)
+    um = Marshal.load(m)
+    assert um.instance_variable_get('@primary_key').nil?
+  end
+
+  def test_as_json
+    stub = { @oar.send(:klass_key) => @oar.attributes.stringify_keys }
+    assert @oar.as_json == stub
+  end
+
+  def test_to_json
+    stub = JSON.dump(@oar.send(:klass_key) => @oar.attributes.as_json)
+    assert_match @oar.to_json, stub
   end
 end

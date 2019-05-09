@@ -42,6 +42,9 @@ module OptAR
     # Be cautious of using respond_to? as this will try to query for the
     #   actual ActiveRecord object and check for it's response
     def respond_to_missing?(*args)
+      method_name = args[0]
+      return true if @attributes.key?(method_name)
+
       load_ar_object
       @klass_object.respond_to?(*args)
     end

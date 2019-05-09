@@ -9,9 +9,7 @@ module OptAR
           validate_name(name)
           validate_scope(options[:scope]) if options[:scope]
           faker_proc = lambda do |*args|
-            options = fetch_options(options, *args)
-            scope = options[:scope]
-            fetch_optar_objects(scope, options)
+            fetch_optar_objects(options[:scope], options)
           end
           singleton_class.send(:redefine_method, name, &faker_proc)
         end
@@ -37,20 +35,10 @@ module OptAR
         end
 
         def valid_name?(name)
-          if !name.is_a?(Symbol)
-            :symbol_expected
-          elsif respond_to? name
+          if respond_to? name
             :duplicate_name
           else
             true
-          end
-        end
-
-        def fetch_options(options, *args)
-          if options.respond_to?(:call)
-            unscoped { options.call(*args) }
-          else
-            options
           end
         end
 

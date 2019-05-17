@@ -3,6 +3,7 @@ require 'rake/testtask'
 require 'mysql2'
 require 'active_record'
 require 'active_record/connection_adapters/mysql2_adapter'
+require 'coveralls/rake/task'
 
 Rake::TestTask.new(:test) do |t|
   t.libs << 'test'
@@ -27,3 +28,5 @@ namespace :db do
 end
 
 task default: :test
+
+Coveralls::RakeTask.new

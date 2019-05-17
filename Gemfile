@@ -18,6 +18,8 @@ gem 'benchmark-ips'
 gem 'benchmark-memory'
 
 gem 'simplecov'
+gem 'simplecov-console'
+gem 'coveralls', require: false
 
 # gem 'codeclimate-test-reporter'
 

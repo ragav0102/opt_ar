@@ -39,11 +39,6 @@ jobs:
             COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN rake test
 
       - run:
-          name: get coverage
-          command:
-            coverage xml
-
-      - run:
           name: push result data to coveralls
           command:
             bundle exec rake coveralls:push

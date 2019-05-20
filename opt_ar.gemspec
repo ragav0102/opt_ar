@@ -17,7 +17,10 @@ Gem::Specification.new do |spec|
                        'them just as you would on an AR, for better memory '\
                        'optimization. Ideally, suitable in place of caching '\
                        'AR objects with cache stores like Memcached, where '\
-                       'serialization and de-serialization are memory-hungry'
+                       'serialization and de-serialization are memory-hungry. '\
+                       'Optars can save upto 90% of your memory(object '\
+                       'allocations), while being upto 20x faster, when '\
+                       'fetching huge AR results.'
   spec.homepage      = 'https://github.com/ragav0102/opt_ar'
   spec.license       = 'MIT'
 

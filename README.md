@@ -3,7 +3,7 @@
 
 Generates memory-optimal immutable ActiveRecord dupes that are easily serializable and behaves much like ARs. Request attributes that will be read before-hand, and use them later just as you would on an AR, for better memory optimization.
 
-Ideally, suitable in place of caching AR objects with cache stores like Memcached, where serialization and de-serialization are memory-hungry
+Ideally, suitable in place of caching AR objects with cache stores like Memcached, where serialization and de-serialization are memory-hungry. Optars can save upto *90%* of your memory(object allocations), while being upto *20x* faster, when fetching huge AR results.
 
 ## Installation
 
@@ -134,7 +134,24 @@ Restrict storing sensitive/PII info outside, by blacklisting them. Simply add th
 
 ---
 
-Check for benchmarks inside [_benchmarks_ folder](./benchmarks) folder
+## Benchmarks
+
+Benchmark results for executing selects, marshal dumping and loads on ActiveRecord vs Optars are as follows:
+
+| | Execution time | Memory saved |
+|-|:----------------:|:--------------:|
+| Select queries | 2-4x faster | 20-70%|
+| Dumps | 2-6x faster | 30-80%|
+| Loads | 5-20x faster | 70-90% |
+
+_* Larger the data, greater the results_
+
+
+Common caching solutions like Memcached by default, uses Marshalling to store and retrieve objects. Storing and retrieving AR objects, creates a lot of ruby objects in memory, which grows linearly with the number of ARs.
+
+_Optars_ are here to save you, use them well.
+
+Scripts used for benchmarking can be found inside benchmarks [folder](./benchmarks).
 
 
 

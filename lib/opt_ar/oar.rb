@@ -16,7 +16,7 @@ module OptAR
     BLACKLISTED_ATTRIBUTES = 'BLACKLISTED_ATTRIBUTES'.freeze
 
     def initialize(object, options = {})
-      req_attributes = options[:req_attributes] || []
+      req_attributes = options[:attrs] || []
       assign_attributes(object, req_attributes)
       @klass_name = object.class.name
       # define_attr_readers

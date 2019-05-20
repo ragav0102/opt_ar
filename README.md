@@ -35,14 +35,14 @@ class Employee < ActiveRecord::Base
     where(gender: 1)
   }
 
-  show_as :male_names,
+  swindle :male_names,
           scope: :male_employees,
-          req_attributes: %i[emp_id first_name last_name]
+          attrs: %i[emp_id first_name last_name]
 
-  show_as :emp_birth_dates
-          req_attributes: %i[birth_date]
+  swindle :emp_birth_dates
+          attrs: %i[birth_date]
 
-  show_as :all_emp_ids
+  swindle :all_emp_ids
 end
 ```
 
@@ -51,7 +51,7 @@ end
 If not given, gets the default scope for the model
 
 
-  * **req_attributes** - Request attributes that will be read later. Reading unrequested attributes is an **anti-pattern**.
+  * **attrs** - Request attributes that will be read later. Reading unrequested attributes is an **anti-pattern**.
 
 If not given, stores only the primary key
    
@@ -84,13 +84,13 @@ Use them on _AR relations/ Array of ARs_ as well
 ```ruby
  > rel = Employee.all
  
- > rel.opt_ar_objects
+ > rel.optars
  # => [#<OptAR::OAR:0x007fe5d11f2b88 @attributes={:emp_id=>10082}, @klass_name="Employee">, #<OptAR::OAR:0x007fe5d11f25c0 @attributes={:emp_id=>10096}, @klass_name="Employee">,..]
  
  > arr = rel.to_a
  # => [#<OptAR::OAR:0x007fe5d11885f8 @attributes={:emp_id=>10082}, @klass_name="Employee">, #<OptAR::OAR:0x007fe5d11939a8  @attributes={:emp_id=>10096}, @klass_name="Employee">,..]
 
- > arr.opt_ar_objects(req_attributes: [:first_name])
+ > arr.optars(attrs: [:first_name])
  # => [#<OptAR::OAR:0x007fe5d0953400 @attributes={:first_name=>"Parviz", :emp_id=>10082}, @klass_name="Employee">, #<OptAR::OAR:0x007fe5d09530b8 @attributes={:first_name=>"Jayson", :emp_id=>10096}, @klass_name="Employee">,..]
  
 ```
@@ -104,7 +104,7 @@ On an ActiveRecord,
 
 > emp = Employee.first
 
-> emp.opt_ar_object(req_attributes: [:last_name, :birth_date])
+> emp.optar(attrs: [:last_name, :birth_date])
 # => #<OptAR::OAR:0x007fe5d096d558 @attributes={:last_name=>"Lortz", :birth_date=>Mon, 09 Sep 1963, :emp_id=>10082}, @klass_name="Employee">
 
 ```

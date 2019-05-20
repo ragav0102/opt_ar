@@ -1,6 +1,6 @@
 module ActiveRecord
   # Adding functionality to ActiveRecord::Relation to make
-  #   opt_ar_objects method available for all relations,
+  #   optars method available for all relations,
   #   returning array of `OAR`s which we generate
   module RelationExtender
     DEFAULT_QUERY_OPTIONS = {
@@ -12,20 +12,22 @@ module ActiveRecord
       # Disabled because iteration happens only once allowing GC to cleanup
     }.freeze
 
-    def opt_ar_objects(options = {})
-      attrs = options[:req_attributes] || []
+    def optars(options = {})
+      attrs = options[:attrs] || []
       validate_columns(attrs)
       select_attrs = ([primary_key] + attrs).uniq
       sql_query = except(:select).select(select_attrs).to_sql
       fetch_objects(sql_query, select_attrs)
     end
 
+    alias opt_ar_objects optars
+
     private
 
-    def fetch_objects(query, req_attributes)
+    def fetch_objects(query, requested_attributes)
       res = fetch_sql_rows(query, DEFAULT_QUERY_OPTIONS)
       res.map do |row|
-        OptAR::OAR.init_manual(row, klass, req_attributes)
+        OptAR::OAR.init_manual(row, klass, requested_attributes)
       end
     end
 

@@ -6,10 +6,10 @@ m1 = Marshal.dump(emps)
 emps = Employee.all.select([:emp_id, :first_name, :last_name, :created_at]).to_a
 m2 = Marshal.dump(emps) 
 
-emps = Employee.all.opt_ar_objects
+emps = Employee.all.optars
 m3 = Marshal.dump(emps)
 
-emps = Employee.all.opt_ar_objects(req_attribute: [:emp_id, :first_name, :last_name, :created_at])
+emps = Employee.all.optars(req_attribute: [:emp_id, :first_name, :last_name, :created_at])
 m4 = Marshal.dump(emps)
 
 # 2.2.3 :198 > ObjectSpace.memsize_of m1

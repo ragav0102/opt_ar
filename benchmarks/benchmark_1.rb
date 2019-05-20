@@ -15,12 +15,12 @@ def bm_time
     end
 
     x.report('OptAR') do
-      emp = Employee.all.opt_ar_objects
+      emp = Employee.all.optars
       emp.last.emp_id
     end
 
     x.report('OptAR req') do
-      emp = Employee.all.opt_ar_objects(
+      emp = Employee.all.optars(
         req_attribute: %i[emp_id first_name last_name created_at]
       )
       emp.last.emp_id
@@ -48,12 +48,12 @@ def bm_mem
     end
 
     x.report('OptAR') do
-      emp = Employee.all.opt_ar_objects
+      emp = Employee.all.optars
       emp.last.emp_id
     end
 
     x.report('OptAR req') do
-      emp = Employee.all.opt_ar_objects(
+      emp = Employee.all.optars(
         req_attribute: %i[emp_id first_name last_name created_at]
       )
       emp.last.emp_id

@@ -5,7 +5,7 @@ class OARTest < OptARTest::Base
     @oar = OptAR::OAR.new(Employee.first)
     @oar_attrs = OptAR::OAR.new(
       Employee.first,
-      req_attributes: %i[birth_date first_name]
+      attrs: %i[birth_date first_name]
     )
   end
 
@@ -49,14 +49,14 @@ class OARTest < OptARTest::Base
                          gender: 1, emp_id: Employee.maximum(:emp_id) + 100,
                          password: 'oprjeiw')
       emp.save!
-      oar1 = emp.opt_ar_object
+      oar1 = emp.optar
       emp.destroy
       oar1.last_name
     end
   end
 
   def test_blacklisted_attrs_removal
-    oar1 = Employee.first.opt_ar_object(req_attributes: [:password])
+    oar1 = Employee.first.optar(attrs: [:password])
     refute oar1.attributes.key?(:password)
   end
 
@@ -69,7 +69,7 @@ class OARTest < OptARTest::Base
   def test_with_no_blacklisted_attrs_defined
     prev = Employee.const_get(:BLACKLISTED_ATTRIBUTES)
     Employee.send(:remove_const, :BLACKLISTED_ATTRIBUTES)
-    oar1 = Employee.first.opt_ar_object(req_attributes: [:password])
+    oar1 = Employee.first.optar(attrs: [:password])
     assert oar1.attributes.key?(:password)
   ensure
     Employee.const_set(:BLACKLISTED_ATTRIBUTES, prev)
@@ -77,14 +77,14 @@ class OARTest < OptARTest::Base
 
   def test_valid_datetime_ar_field_transform
     emp = Employee.last
-    oar1 = emp.opt_ar_object(req_attributes: [:created_at])
+    oar1 = emp.optar(attrs: [:created_at])
     assert emp.created_at == oar1.created_at
   end
 
   def test_valid_datetime_ar_field_transform_overriding
     Employee.stub_const(:DATE_TIME_ATTRIBUTES, %i[created_at]) do
       emp = Employee.last
-      oar1 = emp.opt_ar_object(req_attributes: [:created_at])
+      oar1 = emp.optar(attrs: [:created_at])
       assert emp.created_at == oar1.created_at
     end
   end
@@ -93,14 +93,14 @@ class OARTest < OptARTest::Base
     assert_raises OptAR::Errors::TimeTypeExpectedError do
       Employee.stub_const(:DATE_TIME_ATTRIBUTES, %i[first_name]) do
         emp = Employee.last
-        emp.opt_ar_object(req_attributes: [:first_name])
+        emp.optar(attrs: [:first_name])
       end
     end
   end
 
   def test_exception_for_init_without_primary_key
     assert_raises OptAR::Errors::MandatoryPrimaryKeyMissingError do
-      Employee.select([:first_name]).first.opt_ar_object
+      Employee.select([:first_name]).first.optar
     end
   end
 

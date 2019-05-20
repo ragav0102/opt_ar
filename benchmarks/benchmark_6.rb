@@ -9,10 +9,10 @@ emps = Employee.all.to_a
 emps = Employee.all.select(%i[emp_id first_name last_name created_at]).to_a
 @m2 = Marshal.dump(emps)
 
-emps = Employee.all.opt_ar_objects
+emps = Employee.all.optars
 @m3 = Marshal.dump(emps)
 
-emps = Employee.all.opt_ar_objects(
+emps = Employee.all.optars(
   req_attribute %i[emp_id first_name last_name created_at]
 )
 @m4 = Marshal.dump(emps)

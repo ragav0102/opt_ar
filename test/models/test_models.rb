@@ -22,17 +22,17 @@ class Employee < ActiveRecord::Base
     unscoped
   }
 
-  show_as :male_name,
+  swindle :male_name,
           scope: :male_employees,
-          req_attributes: %i[emp_id first_name last_name]
+          attrs: %i[emp_id first_name last_name]
 
-  show_as :date_infos,
-          req_attributes: %i[birth_date hire_date]
+  swindle :date_infos,
+          attrs: %i[birth_date hire_date]
 
-  show_as :all_emps,
+  swindle :all_emps,
           scope: :all_emp
 
-  show_as :female_ids,
+  swindle :female_ids,
           scope: :female_employees
 end
 
@@ -43,5 +43,5 @@ class SampleAR < ActiveRecord::Base
 
   BLACKLISTED_ATTRIBUTES = [:sample_id].freeze
 
-  show_as :error_out
+  swindle :error_out
 end

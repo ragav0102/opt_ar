@@ -1,3 +1,4 @@
+require_relative '../../raw_oar'
 module ActiveRecord
   # Adding functionality to ActiveRecord::Relation to make
   #   optars method available for all relations,
@@ -20,6 +21,15 @@ module ActiveRecord
       fetch_objects(sql_query, select_attrs)
     end
 
+    def raw_optars(options = {})
+      attrs = options[:attrs] || []
+      validate_columns(attrs)
+      select_attrs = ([primary_key] + attrs).uniq
+      sql_query = except(:select).select(select_attrs).to_sql
+      query_options = DEFAULT_QUERY_OPTIONS.dup.merge(as: :array)
+      fetch_raw_content(sql_query, query_options)
+    end
+
     alias opt_ar_objects optars
 
     private
@@ -29,6 +39,14 @@ module ActiveRecord
       res.map do |row|
         OptAR::OAR.init_manual(row, klass, requested_attributes)
       end
+    end
+
+    def fetch_raw_content(query, options)
+      result = fetch_sql_rows(query, options)
+
+      columns = result.fields
+      rows = result.to_a
+      OptAR::RawOAR.new(columns, rows)
     end
 
     def fetch_sql_rows(query, options)

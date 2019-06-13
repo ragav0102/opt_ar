@@ -88,7 +88,7 @@ module OptAR
     def klass_primary_key(klass = nil)
       @primary_key ||= begin
         klass ||= klass_name.constantize
-        klass.primary_key.to_sym
+        klass.primary_key.to_sym || :id
       end
     end
 

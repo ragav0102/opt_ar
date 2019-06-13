@@ -45,6 +45,10 @@ module OptAR
     # TODO: for handling JSON serialization
     def self.from_json(string); end
 
+    def [](attribute)
+      send(attribute)
+    end
+
     private
 
     # def define_attr_readers
